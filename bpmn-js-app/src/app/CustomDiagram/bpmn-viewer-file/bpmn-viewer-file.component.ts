@@ -1,9 +1,10 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Output, ViewChild } from '@angular/core';
 import BpmnViewer from 'bpmn-js';
 import * as BpmnJS from 'bpmn-js/dist/bpmn-modeler.production.min.js';
-import { Observable, from } from 'rxjs';
+import { Observable, Subscription, from } from 'rxjs';
 import BpmnModeler from 'bpmn-js/lib/Modeler';
+import { map, switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-bpmn-viewer-file',
@@ -12,17 +13,44 @@ import BpmnModeler from 'bpmn-js/lib/Modeler';
 })
 export class BpmnViewerFileComponent {
   @ViewChild('bpmnContainer1', { static: true }) private bpmnContainer1: ElementRef;
+  @Output() private importDone: EventEmitter<any> = new EventEmitter();
+  diagramUrl = 'https://cdn.statically.io/gh/bpmn-io/bpmn-js-examples/dfceecba/starter/diagram.bpmn';
 
   private modeler: BpmnModeler;
 
-  constructor() {
+  // constructor() {
 
+  // }
+
+  constructor(private http: HttpClient) {
+    // this.modeler.on('import.done', ({ error }) => {
+    //   if (!error) {
+    //     this.modeler.get('canvas').zoom('fit-viewport');
+    //   }
+    // });
   }
+
+  // ngAfterContentInit(): void {
+  //   this.bpmnJS.attachTo(this.el.nativeElement);
+  // }
+
+  // ngOnInit(): void {
+  //   if (this.diagramUrl) {
+  //     this.loadUrl(this.diagramUrl);
+  //   }
+
+  // }
+
+
   ngOnInit(): void {
     this.modeler = new BpmnModeler({
       container: this.bpmnContainer1.nativeElement,
       keyboard: { bindTo: document },
     });
+
+    if (this.diagramUrl) {
+      this.loadUrl(this.diagramUrl);
+    }
   }
   onFileSelected(event: any): void {
     const file = event.target.files[0];
@@ -124,4 +152,44 @@ export class BpmnViewerFileComponent {
       }
     });
   }
+
+
+    /**
+   * Load diagram from URL and emit completion event
+   */
+    loadUrl(url: string): Subscription {
+      console.log(url,'urlvalue');
+       return (
+         this.http.get(url, { responseType: 'text' }).pipe(
+           switchMap((xml: string) => this.importDiagram(xml)),
+           map(result => result.warnings),
+         ).subscribe(
+           (warnings) => {
+             this.importDone.emit({
+               type: 'success',
+               warnings
+             });
+           },
+           (err) => {
+             this.importDone.emit({
+               type: 'error',
+               error: err
+             });
+           }
+         )
+       );
+     }
+     
+  /**
+   * Creates a Promise to import the given XML into the current
+   * BpmnJS instance, then returns it as an Observable.
+   *
+   * @see https://github.com/bpmn-io/bpmn-js-callbacks-to-promises#importxml
+   */
+  private importDiagram(xml: string): Observable<{warnings: Array<any>}> {
+    console.log(xml,'dmldata');
+    return from(this.modeler.importXML(xml) as Promise<{warnings: Array<any>}>);
+  }
+
+
 }
