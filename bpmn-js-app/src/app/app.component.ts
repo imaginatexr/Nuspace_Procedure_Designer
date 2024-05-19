@@ -8,7 +8,7 @@ import { Component } from '@angular/core';
 export class AppComponent {
   title = 'Assist Procedure Designer';
   //diagramUrl = 'https://cdn.statically.io/gh/bpmn-io/bpmn-js-examples/dfceecba/starter/diagram.bpmn';
-  diagramUrl ='./assets/diagram.bpmn';
+  diagramUrl ='./assets/procedureDesignerSample.bpmn';
 
   importError?: Error;
   handleImported(event) {

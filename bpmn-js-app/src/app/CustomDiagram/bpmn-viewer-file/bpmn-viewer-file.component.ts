@@ -14,8 +14,11 @@ import { map, switchMap } from 'rxjs/operators';
 export class BpmnViewerFileComponent {
   @ViewChild('bpmnContainer1', { static: true }) private bpmnContainer1: ElementRef;
   @Output() private importDone: EventEmitter<any> = new EventEmitter();
-  diagramUrl = 'https://cdn.statically.io/gh/bpmn-io/bpmn-js-examples/dfceecba/starter/diagram.bpmn';
+  diagramUrl ='./assets/defaultDiagram.bpmn';// 'https://cdn.statically.io/gh/bpmn-io/bpmn-js-examples/dfceecba/starter/diagram.bpmn';
+  //diagramUrl = 'https://cdn.statically.io/gh/bpmn-io/bpmn-js-examples/dfceecba/starter/diagram.bpmn';
 
+  imgUrl = './assets/download1.png';
+  openImgUrl='./assets/open.png';
   private modeler: BpmnModeler;
 
   // constructor() {
@@ -191,5 +194,11 @@ export class BpmnViewerFileComponent {
     return from(this.modeler.importXML(xml) as Promise<{warnings: Array<any>}>);
   }
 
-
+  openExistingFile()
+  {
+    this.diagramUrl ='./assets/procedureDesignerSample.bpmn';
+    if (this.diagramUrl) {
+      this.loadUrl(this.diagramUrl);
+    }
+  }
 }

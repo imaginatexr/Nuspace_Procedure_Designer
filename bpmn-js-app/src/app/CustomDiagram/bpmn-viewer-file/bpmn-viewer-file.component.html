@@ -1,4 +1,16 @@
 <!-- <h1>Open existing procedure diagram</h1> -->
 <input type="file" (change)="onFileSelected($event)" />
 <button (click)="downloadBpmn1()">Download BPMN</button>
+<button (click)="openExistingFile()" style="margin-left: 100px;">Sample procedure Designer</button>
+
+<!-- <img type="file" width="50" height="50" alt="Angular Logo" [src]="openImgUrl"  (change)="onFileSelected($event)"> -->
+
+<!-- <img width="50" height="50" alt="Angular Logo" [src]="imgUrl" (click)="downloadBpmn1()"/> -->
+
+<!-- <button id="btnfile" class="btn"> 
+    <img src="xyz.img.png">
+    <span id="fname" ></span>
+    <input type="file" id="uplodfile" />
+</button> -->
+
 <div  #bpmnContainer1 class="diagram-container1"></div>
