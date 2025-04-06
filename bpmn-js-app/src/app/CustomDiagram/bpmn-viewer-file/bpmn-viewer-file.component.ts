@@ -5,6 +5,7 @@ import * as BpmnJS from 'bpmn-js/dist/bpmn-modeler.production.min.js';
 import { Observable, Subscription, from } from 'rxjs';
 import BpmnModeler from 'bpmn-js/lib/Modeler';
 import { map, switchMap } from 'rxjs/operators';
+import { RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-bpmn-viewer-file',
