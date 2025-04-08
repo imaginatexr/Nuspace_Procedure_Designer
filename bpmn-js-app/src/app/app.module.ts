@@ -18,10 +18,11 @@ import { ErrorInterceptor } from './_helpers/error.interceptor';
 
 import { HomeComponent } from './home';
 import { LoginComponent } from './login';
-//import {  LayOutComponent} from './layout/layout.component';
+//import {  UnAuthComponent} from './UnAuth';
 
 // import { RegisterComponent } from './register';
  import { AlertComponent } from './CustomDiagram/alert';
+import { UnAuthorizedComponent } from './un-authorized/un-authorized.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,9 @@ import { LoginComponent } from './login';
      BpmnViewerFileComponent,
     HomeComponent,
     LoginComponent,
-    AlertComponent
+    AlertComponent,
+    UnAuthorizedComponent
+    //UnAuthComponent
     
   ],
   imports: [

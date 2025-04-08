@@ -13,12 +13,15 @@ export class AuthenticationService {
 
   constructor(private http:HttpClient) {
    // this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('currentUser')));
-    const defaultUser: User = {
-      id: 0, username: '', firstName: '',
-      password: '',
-      lastName: '',
-      token: ''
-    }; // Adjust according to your User type
+   const defaultUser: User = {
+    mailID: '', displayName: '',
+    jwtAccessToken: '',
+    refreshAccessToken: '',
+    accessToken: '',
+    type: '',
+    tenantID: '',
+    onPremises: false
+  };  // Adjust according to your User type
 const currentUser = localStorage.getItem('currentUser');
 this.currentUserSubject = new BehaviorSubject<User>(currentUser ? JSON.parse(currentUser) : defaultUser);
 
@@ -27,6 +30,16 @@ this.currentUser = this.currentUserSubject.asObservable();
 
   public get currentUserValue(): User {
     return this.currentUserSubject.value;
+  }
+
+  login1(userName: string,password: string){
+    return this.http.post<any>(API_URL+'api/IsUser', { userName, password })
+    .pipe(map(user => {
+      // store user details jwt token in localStorage
+      localStorage.setItem('currentUser', JSON.stringify(user));
+      this.currentUserSubject.next(user);
+      return user;
+    }));
   }
 
   login(userName: string,password: string){
@@ -43,6 +56,7 @@ this.currentUser = this.currentUserSubject.asObservable();
    return this.http.post<any>(API_URL+'api/IsUser', body.toString(), { headers: headers })
     .pipe(map(user => {
       // store user details jwt token in localStorage
+      console.log(user,'currentUser');
       localStorage.setItem('currentUser', JSON.stringify(user));
       this.currentUserSubject.next(user);
       return user;
@@ -52,10 +66,13 @@ this.currentUser = this.currentUserSubject.asObservable();
   logout() {
     //remove user from localStorage
     const defaultUser: User = {
-      id: 0, username: '', firstName: '',
-      password: '',
-      lastName: '',
-      token: ''
+      mailID: '', displayName: '',
+      jwtAccessToken: '',
+      refreshAccessToken: '',
+      accessToken: '',
+      type: '',
+      tenantID: '',
+      onPremises: false
     }; 
     localStorage.removeItem('currentUser');
     this.currentUserSubject.next(defaultUser);

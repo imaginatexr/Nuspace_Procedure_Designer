@@ -52,19 +52,20 @@ export class LoginComponent implements OnInit {
     }
 
     this.loading = true;
-    this.router.navigateByUrl('/app-bpmn-viewer-file');
+    //this.router.navigateByUrl('/unAuthorized');
 
-    // this.authenticationService.login(this.f.userName.value, this.f.password.value)
-    // .pipe(first())
-    // .subscribe(
-    //   data => {
-    //     this.router.navigate([this.returnUrl]);
-    //   },
-    //   error => {
-    //     this.alertService.error(error);
-    //     this.loading = false;
-    //   }
-    // );
+    this.authenticationService.login(this.f.userName.value, this.f.password.value)
+    .pipe(first())
+    .subscribe(
+      data => {
+        this.router.navigateByUrl('/app-bpmn-viewer-file');
+      },
+      error => {
+        this.router.navigateByUrl('/unAuthorized');
+        this.alertService.error(error);
+        this.loading = false;
+      }
+    );
   }
 
 }
