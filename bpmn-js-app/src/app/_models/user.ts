@@ -20,8 +20,8 @@ export class User1 {
     fileType?: number;                // C# int? -> TypeScript number?
     gender?: string;                  // C# string -> TypeScript string
     tenantID: string;                 // C# Guid -> TypeScript string (UUID in TypeScript is a string)
-    errorMessage?: string;            // C# string -> TypeScript string
-    mailID?: string;                  // C# string -> TypeScript string
+    ErrorMessage?: string;            // C# string -> TypeScript string
+    MailID?: string;                  // C# string -> TypeScript string
     role?: string;                    // C# string -> TypeScript string
     onPremises: boolean;              // C# bool -> TypeScript boolean
     dynamicProperties?: string;       // C# string -> TypeScript string

@@ -22,7 +22,7 @@ export class LayoutComponent  {
     }
     else{
       this.loggedUser  = {
-        mailID: 'demo@imaginate.in', displayName: '',
+        MailID: 'demo@imaginate.in', displayName: '',
         jwtAccessToken: '',
         refreshAccessToken: '',
         accessToken: '',

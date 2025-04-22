@@ -14,7 +14,7 @@ export class AuthenticationService {
   constructor(private http:HttpClient) {
    // this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('currentUser')));
    const defaultUser: User = {
-    mailID: '', displayName: '',
+    MailID: '', displayName: '',
     jwtAccessToken: '',
     refreshAccessToken: '',
     accessToken: '',
@@ -57,6 +57,7 @@ this.currentUser = this.currentUserSubject.asObservable();
     .pipe(map(user => {
       // store user details jwt token in localStorage
       console.log(user,'currentUser');
+      
       localStorage.setItem('currentUser', JSON.stringify(user));
       this.currentUserSubject.next(user);
       return user;
@@ -66,7 +67,7 @@ this.currentUser = this.currentUserSubject.asObservable();
   logout() {
     //remove user from localStorage
     const defaultUser: User = {
-      mailID: '', displayName: '',
+      MailID: '', displayName: '',
       jwtAccessToken: '',
       refreshAccessToken: '',
       accessToken: '',

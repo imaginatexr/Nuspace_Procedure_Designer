@@ -58,6 +58,11 @@ export class LoginComponent implements OnInit {
     .pipe(first())
     .subscribe(
       data => {
+        if(data.ErrorMessage != null || data.AccessToken == null)
+        {
+          this.router.navigateByUrl('/unAuthorized');
+          return ;
+        }
         this.router.navigateByUrl('/app-bpmn-viewer-file');
       },
       error => {
