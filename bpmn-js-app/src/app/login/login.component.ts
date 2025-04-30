@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
 
 import { AlertService, AuthenticationService } from '../_services';
+import * as CryptoJS from 'crypto-js';
 
 @Component({
   selector: 'app-login',
@@ -54,7 +55,8 @@ export class LoginComponent implements OnInit {
     this.loading = true;
     //this.router.navigateByUrl('/unAuthorized');
 
-    this.authenticationService.login(this.f.userName.value, this.f.password.value)
+    let encryptPassword = this.encryptPassword(this.f.password.value);
+    this.authenticationService.login(this.f.userName.value, encryptPassword)
     .pipe(first())
     .subscribe(
       data => {
@@ -73,4 +75,21 @@ export class LoginComponent implements OnInit {
     );
   }
 
+    encryptPassword(plainText: string): string {
+      const SECRET_KEY = CryptoJS.enc.Utf8.parse('1234567890123456'); // 16-char key
+const IV = CryptoJS.enc.Utf8.parse('6543210987654321');         // 16-char IV
+
+    const encrypted = CryptoJS.AES.encrypt(
+      CryptoJS.enc.Utf8.parse(plainText),
+      SECRET_KEY,
+      {
+        keySize: 128 / 8,
+        iv: IV,
+        mode: CryptoJS.mode.CBC,
+        padding: CryptoJS.pad.Pkcs7
+      }
+    );
+  
+    return encrypted.toString(); // Base64 format
+  }
 }

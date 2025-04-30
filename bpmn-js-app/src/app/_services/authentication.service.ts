@@ -50,7 +50,9 @@ this.currentUser = this.currentUserSubject.asObservable();
     const body = new HttpParams()
       .set('userName', userName)
       .set('password', password)
-      .set('Encrypt', 'false');
+      .set('Encrypt', 'true')
+      .set('Version', 5);
+
       
    // return this.http.post<any>(API_URL+'api/IsUser', { userName, password })
    return this.http.post<any>(API_URL+'api/IsUser', body.toString(), { headers: headers })
