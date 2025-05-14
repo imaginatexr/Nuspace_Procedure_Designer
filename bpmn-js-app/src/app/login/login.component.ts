@@ -60,6 +60,14 @@ export class LoginComponent implements OnInit {
     .pipe(first())
     .subscribe(
       data => {
+        if(data.message != null && data.message != 'undefined')
+        {
+          if (data.message.includes("Rate limit exceeded")) {
+            alert("Rate limit exceeded. Try again later.");
+            this.loading = false;
+            return;
+                    }          
+                  }
         if(data.ErrorMessage != null || data.AccessToken == null)
         {
           this.router.navigateByUrl('/unAuthorized');
@@ -90,6 +98,7 @@ const IV = CryptoJS.enc.Utf8.parse('6543210987654321');         // 16-char IV
       }
     );
   
+    
     return encrypted.toString(); // Base64 format
   }
 }
